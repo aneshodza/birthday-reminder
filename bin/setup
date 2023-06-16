@@ -1,0 +1,12 @@
+#!/bin/sh
+
+RED="\033[0;31m"
+NONE="\033[0m"
+
+if ! which cargo >/dev/null 2>&1; then
+  echo "${RED}Cargo not found. Exiting...${NONE}"
+  exit 1
+fi
+
+CARGO_TARGET_DIR="$HOME/.birthday_reminder" cargo build -r
+echo "Now add ${RED}\$HOME/.birthday_reminder/release/birthday-reminder${NONE} to your .zshrc or .bashrc"
