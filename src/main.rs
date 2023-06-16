@@ -51,10 +51,10 @@ fn parse_row(row: &str, today: NaiveDate) -> bool {
     let until_birthday = days_until_bithday(days_old);
     if until_birthday < 14 && until_birthday > 0 {
         println!("{} has birthday in {} days!", name, until_birthday);
-        true;
+        return true;
     } else if until_birthday == 0 {
         println!("{} turns {} today!", name, days_old / 365);
-        true;
+        return true;
     }
     false
 }
