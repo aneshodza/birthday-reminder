@@ -30,18 +30,37 @@ fn print_birthdays(dir: &PathBuf) {
 }
 
 fn search_soon_birthday(data: Vec<&str>) {
-    let today = Local::now();
+    let today = Local::now().naive_local().date();
+    let mut any_birthday = false;
     for row in data.iter() {
-        parse_row(row, today);
+        let result = parse_row(row, today);
+        if result {
+            any_birthday = true;
+        }
+    }
+    if !any_birthday {
+        println!("No birthdays in the next 14 days!");
     }
 }
 
-fn parse_row(row: &str, today: chrono::DateTime<Local>) {
+fn parse_row(row: &str, today: NaiveDate) -> bool {
     let split_row: Vec<&str> = row.split("=").collect();
     let name = split_row[0];
     let date_of_birth = NaiveDate::parse_from_str(split_row[1], "%Y.%m.%d").expect("Invalid date format");
-    println!("{} has birthday on the {:?}", name, date_of_birth);
-    println!("{}", date_of_birth.month());
+    let days_old = today.signed_duration_since(date_of_birth).num_days();
+    let until_birthday = days_until_bithday(days_old);
+    if until_birthday < 14 && until_birthday > 0 {
+        println!("{} has birthday in {} days!", name, until_birthday);
+        true;
+    } else if until_birthday == 0 {
+        println!("{} turns {} today!", name, days_old / 365);
+        true;
+    }
+    false
+}
+
+fn days_until_bithday(days: i64) -> i64 {
+    return days % 365;
 }
 
 fn initialize_note_file(dir: &PathBuf) {
