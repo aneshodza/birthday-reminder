@@ -41,6 +41,7 @@ fn parse_row(row: &str, today: chrono::DateTime<Local>) {
     let name = split_row[0];
     let date_of_birth = NaiveDate::parse_from_str(split_row[1], "%Y.%m.%d").expect("Invalid date format");
     println!("{} has birthday on the {:?}", name, date_of_birth);
+    println!("{}", date_of_birth.month());
 }
 
 fn initialize_note_file(dir: &PathBuf) {
