@@ -3,7 +3,7 @@ use std::path::{Path, PathBuf};
 use std::io;
 use std::process::exit;
 
-use chrono::{NaiveDate, Duration, Local};
+use chrono::{NaiveDate, Local};
 
 fn main() {
     let file_dir = dirs::home_dir().unwrap().join(".birthdays.txt");
