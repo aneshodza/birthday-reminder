@@ -6,7 +6,7 @@ use std::process::exit;
 use chrono::{NaiveDate, Local};
 
 fn main() {
-    let file_dir = dirs::home_dir().unwrap().join(".birthdays.txt");
+    let file_dir = dirs::home_dir().unwrap().join(".birthday_reminder/.birthdays.txt");
     if check_for_note_file(&file_dir) {
         print_birthdays(&file_dir);
     } else {

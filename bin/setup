@@ -1,0 +1,8 @@
+#!/bin/sh
+
+RED="\033[0;31m"
+NONE="\033[0m"
+
+
+CARGO_TARGET_DIR="$HOME/.birthday_reminder" cargo build -r
+echo "Now add ${RED}\$HOME/.birthday_reminder/release/birthday-reminder${NONE} to your .zshrc or .bashrc"
