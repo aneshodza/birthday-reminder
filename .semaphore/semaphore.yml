@@ -3,15 +3,20 @@ name: Rust
 agent:
   machine:
     type: e1-standard-2
+    os_image: ubuntu2004
   containers:
     - name: main
       image: 'registry.semaphoreci.com/rust:1.65'
 blocks:
-  - name: Test
+  - name: Test environment
     task:
       jobs:
-        - name: cargo test
+        - name: test
           commands:
-            - checkout
-            - cargo build --verbose
-            - cargo test --verbose
+            - bin/test
+        - name: setup
+          commands:
+            - bin/setup
+      prologue:
+        commands:
+          - checkout
