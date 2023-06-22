@@ -6,12 +6,16 @@ use std::process::exit;
 use chrono::{NaiveDate, Local};
 
 fn main() {
-    let file_dir = dirs::home_dir().unwrap().join(".birthday_reminder/.birthdays.txt");
+    let file_dir = get_file_dir();
     if check_for_note_file(&file_dir) {
         print_birthdays(&file_dir);
     } else {
         initialize_note_file(&file_dir);
     }
+}
+
+fn get_file_dir() -> PathBuf {
+    return dirs::home_dir().unwrap().join(".birthday_reminder/.birthdays.txt");
 }
 
 fn check_for_note_file(dir: &PathBuf) -> bool {
@@ -88,5 +92,21 @@ fn read_y_n_input() -> bool {
             println!("Please enter y or n.");
             return read_y_n_input();
         }
+    }
+}
+
+#[cfg(test)]
+mod tests {
+    use crate::*;
+
+    #[test]
+    fn test_get_file_dir() {
+        let file_dir = get_file_dir();
+        assert_eq!(file_dir, dirs::home_dir().unwrap().join(".birthday_reminder/.birthdays.txt"));
+    }
+
+    #[test]
+    fn test_days_until_birthday() {
+        assert_eq!(4, days_until_bithday(369));
     }
 }
