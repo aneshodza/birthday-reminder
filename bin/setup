@@ -9,4 +9,5 @@ if ! which cargo >/dev/null 2>&1; then
 fi
 
 CARGO_TARGET_DIR="$HOME/.birthday_reminder" cargo build -r --verbose
-echo "Now add ${RED}\$HOME/.birthday_reminder/release/birthday-reminder${NONE} to your .zshrc or .bashrc"
+echo "Now add ${RED}[ -e "\$HOME/.birthday_reminder/release/birthday-reminder" ] && "\$HOME/.birthday_reminder/release/birthday-reminder"
+${NONE} to your .zshrc or .bashrc"
