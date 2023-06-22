@@ -8,5 +8,5 @@ if ! which cargo >/dev/null 2>&1; then
   exit 1
 fi
 
-CARGO_TARGET_DIR="$HOME/.birthday_reminder" cargo build -r
+CARGO_TARGET_DIR="$HOME/.birthday_reminder" cargo build -r --verbose
 echo "Now add ${RED}\$HOME/.birthday_reminder/release/birthday-reminder${NONE} to your .zshrc or .bashrc"
