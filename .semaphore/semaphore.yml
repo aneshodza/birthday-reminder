@@ -3,9 +3,6 @@ name: Rust
 agent:
   machine:
     type: e1-standard-2
-  containers:
-    - name: main
-      image: registry.semaphoreci.com/rust:1.47
 blocks:
   - name: Test
     task:
