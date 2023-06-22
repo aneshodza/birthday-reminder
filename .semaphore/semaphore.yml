@@ -9,6 +9,7 @@ blocks:
       jobs:
         - name: cargo test
           commands:
+            - apt install cargo 
             - checkout
             - cargo build --verbose
             - cargo test --verbose
