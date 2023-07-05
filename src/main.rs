@@ -3,7 +3,7 @@ use std::path::{Path, PathBuf};
 use std::io;
 use std::process::exit;
 
-use chrono::{NaiveDate, Local};
+use chrono::{NaiveDate, Local, Datelike};
 
 fn main() {
     let file_dir = get_file_dir();
@@ -51,20 +51,27 @@ fn parse_row(row: &str, today: NaiveDate) -> bool {
     let split_row: Vec<&str> = row.split("=").collect();
     let name = split_row[0];
     let date_of_birth = NaiveDate::parse_from_str(split_row[1], "%Y.%m.%d").expect("Invalid date format");
-    let days_old = today.signed_duration_since(date_of_birth).num_days();
-    let until_birthday = days_until_bithday(days_old);
+    let until_birthday = days_until_bithday(today, date_of_birth);
     if until_birthday < 14 && until_birthday > 0 {
         println!("{} has birthday in {} days!", name, until_birthday);
         return true;
     } else if until_birthday == 0 {
-        println!("{} turns {} today!", name, days_old / 365);
+        println!("{} turns {} today!", name, date_of_birth.year() - date_of_birth.year());
         return true;
     }
     false
 }
 
-fn days_until_bithday(days: i64) -> i64 {
-    return days % 365;
+fn days_until_bithday(today: NaiveDate, date_of_birth: NaiveDate) -> i64 {
+    let today_year = today.year();
+    let birthday_this_year = NaiveDate::from_ymd_opt(today_year, date_of_birth.month(), date_of_birth.day()).unwrap();
+
+    if birthday_this_year >= today {
+        (birthday_this_year - today).num_days()
+    } else {
+        let birthday_next_year = NaiveDate::from_ymd_opt(today_year + 1, date_of_birth.month(), date_of_birth.day()).unwrap();
+        (birthday_next_year - today).num_days()
+    }
 }
 
 fn initialize_note_file(dir: &PathBuf) {
@@ -103,10 +110,5 @@ mod tests {
     fn test_get_file_dir() {
         let file_dir = get_file_dir();
         assert_eq!(file_dir, dirs::home_dir().unwrap().join(".birthday_reminder/.birthdays.txt"));
-    }
-
-    #[test]
-    fn test_days_until_birthday() {
-        assert_eq!(4, days_until_bithday(369));
     }
 }
