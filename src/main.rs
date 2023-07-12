@@ -35,15 +35,8 @@ fn print_birthdays(dir: &PathBuf) {
 
 fn search_soon_birthday(data: Vec<&str>) {
     let today = Local::now().naive_local().date();
-    let mut any_birthday = false;
     for row in data.iter() {
-        let result = parse_row(row, today);
-        if result {
-            any_birthday = true;
-        }
-    }
-    if !any_birthday {
-        println!("No birthdays in the next 14 days!");
+        parse_row(row, today);
     }
 }
 
@@ -56,7 +49,7 @@ fn parse_row(row: &str, today: NaiveDate) -> bool {
         println!("{} has birthday in {} days!", name, until_birthday);
         return true;
     } else if until_birthday == 0 {
-        println!("{} turns {} today!", name, date_of_birth.year() - date_of_birth.year());
+        println!("{} turns {} today!", name, today.year() - date_of_birth.year());
         return true;
     }
     false
